@@ -7,6 +7,8 @@ import java.util.stream.Collectors;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.ByteArrayResource;
+import org.springframework.core.io.Resource;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -184,6 +186,36 @@ public class FileController {
         fileResponse.setUrl(downloadURL);
 
         return fileResponse;
+    }
+    
+    /**
+     * Download a file based on its ID
+     * @param id The ID of the file to download
+     * @return The file as a downloadable resource
+     */
+    @GetMapping("/downloadFile/{id}")
+    public ResponseEntity<Resource> downloadFile(@PathVariable int id) {
+        try {
+            LOGGER.info("Downloading the file: {}", id);
+
+            Optional<FileEntity> fileEntityOptional = fileService.getUserResume(id);
+
+            if (!fileEntityOptional.isPresent()) {
+                LOGGER.info("File is not found: {}", id);
+                return ResponseEntity.notFound().build();
+            }
+
+            FileEntity fileEntity = fileEntityOptional.get();
+            ByteArrayResource resource = new ByteArrayResource(fileEntity.getData());
+
+            return ResponseEntity.ok()
+                    .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + fileEntity.getName() + "\"")
+                    .contentType(MediaType.valueOf(fileEntity.getContentType()))
+                    .body(resource);
+        } catch (Exception e) {
+            LOGGER.error("Error occurred while downloading the file: {}", id, e);
+            return ResponseEntity.internalServerError().build();
+        }
     }
 
     
