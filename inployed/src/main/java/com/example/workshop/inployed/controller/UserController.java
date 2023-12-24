@@ -187,6 +187,56 @@ public class UserController {
         }
 	}
 	
+	/**
+	 * Implementation for soft delete certain user module
+	 * 
+	 * Note: 
+	 * --------------------------------------------------------------------
+	 * Here we do soft delete as in real world, it is invalid to delete
+	 * user information from the database, hence in this case, we just only
+	 * hide the information from user view by updating the account status, 
+	 * let user thinks that the account is already 'deleted', but in fact 
+	 * the information is still resides in the database.
+	 * --------------------------------------------------------------------
+	 * @param id
+	 * @param userDetail
+	 * @return
+	 */
+	@PutMapping("/updateUserCompany/{id}/{company}")
+	public ResponseEntity<?> updateUserCompany(@PathVariable("id") Integer id, 
+			@PathVariable("company") int company) {
+		// Optional here
+		// used to represent a value that may or may not be present
+		// an Optional object can either contain a non-null value (considered present) 
+		// or it can contain no value at all (considered empty)
+		Optional<User> userResult = userRepos.findById(id);
+		
+		//Default retrieved user is null / empty record
+		User user = null;
+		Company company1 = new Company();
+		
+		// if the result is found
+		if (userResult.isPresent()) {
+			
+			// obtain the user information
+			user = userResult.get();
+			company1.setCompanyID(company);
+			// update the user status
+			user.setCompany(company1);
+			userRepos.save(user);
+			
+			// return HTTP status response code of 200 means OK
+			return ResponseEntity.ok().body(user);
+		} 
+		// else the result is not found
+		else {
+			// it will return HTTP status response code of 401
+			// where 401 is unauthorized (can test at Postmann)
+			return ResponseEntity.status(HttpStatus.UNAUTHORIZED).
+					body("fail to update");
+		}
+		
+	}
 	
 	
 	
@@ -422,5 +472,16 @@ public class UserController {
 	@GetMapping("/admin/ctrlUser/{id}")
 	public List<User> getUserListundercertainAdmin(@PathVariable int id){
 		return userRepos.controlUserList(id);
+	}
+	
+	/**
+	 * Retrieve the list of users under certain administration user
+	 * the list will not include the administration user itself
+	 * @param id
+	 * @return
+	 */
+	@GetMapping("/getUserByCompany/{id}")
+	public List<User> getUserUnderSameCompany(@PathVariable int id){
+		return userRepos.getUserbySameCompany(id);	
 	}
 }

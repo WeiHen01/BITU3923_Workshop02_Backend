@@ -212,15 +212,14 @@ public interface UserRepository extends JpaRepository<User, Integer> {
 			nativeQuery = true)
 	public User findAdminUserByUserId(@Param("userId")int userID);
 	
-	@Query(value="SELECT * FROM user"
-			+"WHERE AdminID = :userId"
-			+"WHERE AdminID != UserID",
-			nativeQuery = true)
-	public List<User> ctrlUserAdmin(@Param("userId")int userID);
-	
 	@Query(value="SELECT * FROM user "
 			+ "WHERE AdminID = :userId "
 			+ "AND AdminID != UserID",
 			nativeQuery = true)
 	public List<User> controlUserList(@Param("userId") int userID);
+	
+	@Query(value="SELECT * FROM user "
+			+ "WHERE CompanyID = :company",
+			nativeQuery = true)
+	public List<User> getUserbySameCompany(@Param("company") int company);
 }

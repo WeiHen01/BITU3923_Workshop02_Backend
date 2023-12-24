@@ -15,37 +15,37 @@ import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 
 @Entity
-@Table(name="user_files")
-public class FileEntity {
+@Table(name="user_image")
+public class ImageEntity {
 
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
-	@Column (name = "fileNo")
+	@Column (name = "img_no")
 	private int Number;
 	
 	@GeneratedValue(generator = "uuid")
 	@GenericGenerator(name = "uuid", strategy = "uuid2")
-	@Column (name = "id")
+	@Column (name = "img_id")
     private String id;
 	
-	@Column (name = "name")
+	@Column (name = "img_name")
     private String name;
 
-	@Column (name = "type")
+	@Column (name = "img_type")
     private String contentType;
 
-	@Column (name = "size")
+	@Column (name = "img_size")
     private Long size;
 
     @Lob
-    @Column (name = "data")
+    @Column (name = "img_data")
     private byte[] data;
     
     @ManyToOne
 	@JoinColumn(name = "UserID")
 	private User userID;
 
-    public int getNumber() {
+	public int getNumber() {
 		return Number;
 	}
 
@@ -54,45 +54,44 @@ public class FileEntity {
 	}
 
 	public String getId() {
-        return id;
-    }
+		return id;
+	}
 
-    public void setId(String id) {
-        this.id = id;
-    }
-
+	public void setId(String id) {
+		this.id = id;
+	}
 
 	public String getName() {
-        return name;
-    }
+		return name;
+	}
 
-    public void setName(String name) {
-        this.name = name;
-    }
+	public void setName(String name) {
+		this.name = name;
+	}
 
-    public String getContentType() {
-        return contentType;
-    }
+	public String getContentType() {
+		return contentType;
+	}
 
-    public void setContentType(String contentType) {
-        this.contentType = contentType;
-    }
+	public void setContentType(String contentType) {
+		this.contentType = contentType;
+	}
 
-    public Long getSize() {
-        return size;
-    }
+	public Long getSize() {
+		return size;
+	}
 
-    public void setSize(Long size) {
-        this.size = size;
-    }
+	public void setSize(Long size) {
+		this.size = size;
+	}
 
-    public byte[] getData() {
-        return data;
-    }
+	public byte[] getData() {
+		return data;
+	}
 
-    public void setData(byte[] data) {
-        this.data = data;
-    }
+	public void setData(byte[] data) {
+		this.data = data;
+	}
 
 	public User getUserID() {
 		return userID;
