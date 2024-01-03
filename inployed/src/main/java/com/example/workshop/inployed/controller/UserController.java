@@ -619,16 +619,7 @@ public class UserController {
 		
 	}
 	
-	/**
-	 * Retrieve the list of users under certain administration user
-	 * the list will not include the administration user itself
-	 * @param id
-	 * @return
-	 */
-	@GetMapping("/admin/ctrlUser/{id}")
-	public List<User> getUserListundercertainAdmin(@PathVariable int id){
-		return userRepos.controlUserList(id);
-	}
+	
 	
 	/**
 	 * Retrieve the list of users under certain administration user
