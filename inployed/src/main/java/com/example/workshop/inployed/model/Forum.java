@@ -38,8 +38,6 @@ public class Forum {
 	 * Getters and setters
 	 * @return
 	 */
-	
-	
 	public int getForumId() {
 		return forumId;
 	}

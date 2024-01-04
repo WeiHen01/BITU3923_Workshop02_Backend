@@ -50,6 +50,18 @@ public class User {
 	@Column (name = "UserType")
 	private String userType;
 	
+	@Column (name = "LastAccessDate")
+	private String AccessDate;
+	
+	@Column (name = "LastAccessTime")
+	private String AccessTime;
+	
+	@Column (name = "LastUpdateDate")
+	private String UpdateDate;
+	
+	@Column (name = "LastUpdateTime")
+	private String UpdateTime;
+	
 	@Column (name = "UserStatus")
 	private String userStatus;
 	
@@ -111,6 +123,46 @@ public class User {
 
 	public void setUserType(String userType) {
 		this.userType = userType;
+	}
+
+	public String getUserPassword() {
+		return userPassword;
+	}
+
+	public void setUserPassword(String userPassword) {
+		this.userPassword = userPassword;
+	}
+
+	public String getAccessDate() {
+		return AccessDate;
+	}
+
+	public void setAccessDate(String accessDate) {
+		AccessDate = accessDate;
+	}
+
+	public String getAccessTime() {
+		return AccessTime;
+	}
+
+	public void setAccessTime(String accessTime) {
+		AccessTime = accessTime;
+	}
+
+	public String getUpdateDate() {
+		return UpdateDate;
+	}
+
+	public void setUpdateDate(String updateDate) {
+		UpdateDate = updateDate;
+	}
+
+	public String getUpdateTime() {
+		return UpdateTime;
+	}
+
+	public void setUpdateTime(String updateTime) {
+		UpdateTime = updateTime;
 	}
 
 	public String getUserStatus() {

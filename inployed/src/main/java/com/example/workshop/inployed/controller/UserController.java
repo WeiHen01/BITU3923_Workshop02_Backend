@@ -528,6 +528,78 @@ public class UserController {
 		return userRepos.findJobSeekerByUserEmail(userEmail);
 	}
 	
+	@PutMapping("/updateLoginTimeDate/{id}/{date}/{time}")
+	public ResponseEntity<?> updateUserAccessDateTime(@PathVariable("id") Integer id,
+			@PathVariable("date") String date, @PathVariable("time") String time ) {
+		// Optional here
+		// used to represent a value that may or may not be present
+		// an Optional object can either contain a non-null value (considered present) 
+		// or it can contain no value at all (considered empty)
+		Optional<User> userResult = userRepos.findById(id);
+		
+		//Default retrieved user is null / empty record
+		User user = null;
+		
+		// if the result is found
+		if (userResult.isPresent()) {
+			
+			// obtain the user information
+			user = userResult.get();
+			
+			// update the user status
+			user.setAccessDate(date);
+			user.setAccessTime(time);
+			userRepos.save(user); 
+			
+			// return HTTP status response code of 200 means OK
+			return ResponseEntity.ok().body(user);
+		} 
+		// else the result is not found
+		else {
+			// it will return HTTP status response code of 401
+			// where 401 is unauthorized (can test at Postmann)
+			return ResponseEntity.status(HttpStatus.UNAUTHORIZED).
+					body("fail to update");
+		}
+		
+	}
+	
+	@PutMapping("/LastupdatedTimeDate/{id}/{date}/{time}")
+	public ResponseEntity<?> updateUserLastUpdatedDateTime(@PathVariable("id") Integer id,
+			@PathVariable("date") String date, @PathVariable("time") String time ) {
+		// Optional here
+		// used to represent a value that may or may not be present
+		// an Optional object can either contain a non-null value (considered present) 
+		// or it can contain no value at all (considered empty)
+		Optional<User> userResult = userRepos.findById(id);
+		
+		//Default retrieved user is null / empty record
+		User user = null;
+		
+		// if the result is found
+		if (userResult.isPresent()) {
+			
+			// obtain the user information
+			user = userResult.get();
+			
+			// update the user status
+			user.setUpdateDate(date);
+			user.setUpdateTime(time);
+			userRepos.save(user); 
+			
+			// return HTTP status response code of 200 means OK
+			return ResponseEntity.ok().body(user);
+		} 
+		// else the result is not found
+		else {
+			// it will return HTTP status response code of 401
+			// where 401 is unauthorized (can test at Postmann)
+			return ResponseEntity.status(HttpStatus.UNAUTHORIZED).
+					body("fail to update");
+		}
+		
+	}
+	
 	/**
 	 * ==============================
 	 *  COMPANY LEVEL
