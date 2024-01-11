@@ -48,6 +48,9 @@ public class Job {
 	@Column (name = "IndustryField")
 	private String industry;
 	
+	@Column (name = "Availability")
+	private String availability;
+	
 	@ManyToOne
 	@JoinColumn (name = "CompanyID")
 	private Company companyId;
@@ -138,6 +141,14 @@ public class Job {
 
 	public void setIndustry(String industry) {
 		this.industry = industry;
+	}
+
+	public String getAvailability() {
+		return availability;
+	}
+
+	public void setAvailability(String availability) {
+		this.availability = availability;
 	}
 
 	public Company getCompanyId() {

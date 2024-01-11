@@ -1,6 +1,7 @@
 package com.example.workshop.inployed.controller;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -15,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.example.workshop.inployed.model.Job;
+import com.example.workshop.inployed.model.User;
 import com.example.workshop.inployed.repository.JobRepository;
 
 @RestController
@@ -27,6 +29,11 @@ public class JobController {
 	@GetMapping
 	public List<Job> getAds(){
 		return adsRepos.findAll();
+	}
+	
+	@GetMapping("/available")
+	public List<Job> getAvailableAds(){
+		return adsRepos.findAvailableJob();
 	}
 	
 	@GetMapping("/{id}")
@@ -43,6 +50,7 @@ public class JobController {
 	public Job addJob(@RequestBody Job jobPost){
 		return adsRepos.save(jobPost);
 	}
+	
 	
 	@GetMapping("/company/ownPost/{company}")
 	public List<Job> getCompanyOwnJobs(@PathVariable int company){
@@ -114,6 +122,36 @@ public class JobController {
 		adsRepos.deleteById(post);
 		
 		return new ResponseEntity<>(HttpStatus.OK);
+	}
+	
+	
+	@PutMapping("/updateJobStatus/{id}")
+	public ResponseEntity<?> updateJobStatus(@PathVariable Long id) {
+		Optional<Job> jobResult = adsRepos.findById(id);
+		
+		//Default retrieved user is null / empty record
+		Job job = null;
+				
+		// if the result is found
+		if (jobResult.isPresent()) {
+					
+			// obtain the user information
+			job = jobResult.get();
+					
+			// update the user status
+			job.setAvailability("Unavailable");
+			adsRepos.save(job);
+					
+			// return HTTP status response code of 200 means OK
+			return ResponseEntity.ok().body(job);
+		} 
+		// else the result is not found
+		else {
+			// it will return HTTP status response code of 401
+			// where 401 is unauthorized (can test at Postmann)
+			return ResponseEntity.status(HttpStatus.UNAUTHORIZED).
+				body("fail to update");
+		}
 	}
 	
 }

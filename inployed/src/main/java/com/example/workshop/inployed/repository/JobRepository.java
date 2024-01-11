@@ -16,6 +16,11 @@ public interface JobRepository extends JpaRepository<Job, Long> {
 	public Job findByJobId(@Param("adsId")int userID);
 	
 	@Query(value="SELECT * FROM job "
+			+ " WHERE Availability = 'Available'",
+			nativeQuery = true)
+	public List<Job> findAvailableJob();
+	
+	@Query(value="SELECT * FROM job "
 			+ " WHERE JobPosition LIKE %:name%",
 			nativeQuery = true)
 	public List<Job> findJobByName(@Param("name")String name);
