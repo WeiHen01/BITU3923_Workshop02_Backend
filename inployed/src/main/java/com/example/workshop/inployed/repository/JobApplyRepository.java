@@ -32,4 +32,5 @@ public interface JobApplyRepository extends JpaRepository<JobApply, Integer> {
 			nativeQuery = true)
 	public List<JobApply> ViewJobRequestsList(@Param("companyId")int companyId);
 	
+	
 }

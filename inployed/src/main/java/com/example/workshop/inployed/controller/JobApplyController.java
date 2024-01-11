@@ -52,7 +52,7 @@ public class JobApplyController {
 	}
 	
 	@PutMapping("/update/{id}/{applyStatus}")
-	public ResponseEntity<?> updateStatus(@PathVariable Integer id, @PathVariable String applyStatus) {
+	public JobApply updateStatus(@PathVariable Integer id, @PathVariable String applyStatus) {
 		// Optional here
 		// used to represent a value that may or may not be present
 		// an Optional object can either contain a non-null value (considered present) 
@@ -73,14 +73,13 @@ public class JobApplyController {
 			jobapplyRepos.save(job);
 			
 			// return HTTP status response code of 200 means OK
-			return ResponseEntity.ok().body(job);
+			return job;
 		} 
 		// else the result is not found
 		else {
 			// it will return HTTP status response code of 401
 			// where 401 is unauthorized (can test at Postmann)
-			return ResponseEntity.status(HttpStatus.UNAUTHORIZED).
-					body("fail to update approval status");
+			return null;
 		}
 		
 	}
