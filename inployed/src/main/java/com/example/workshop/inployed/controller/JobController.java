@@ -16,7 +16,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.example.workshop.inployed.model.Job;
-import com.example.workshop.inployed.model.User;
 import com.example.workshop.inployed.repository.JobRepository;
 
 @RestController
